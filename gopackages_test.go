@@ -8,7 +8,7 @@ import (
 	"github.com/davelondon/ktest/assert"
 	"kego.io/context/vosctx"
 	. "kego.io/process/packages"
-	"kego.io/process/tests"
+	"kego.io/tests"
 )
 
 func TestGetCurrentGopath(t *testing.T) {
