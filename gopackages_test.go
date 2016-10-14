@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/davelondon/ktest/assert"
+	"github.com/davelondon/ktest/require"
 	"kego.io/context/vosctx"
 	. "kego.io/process/packages"
 	"kego.io/tests"
@@ -29,14 +30,14 @@ func TestGetPackageFromDir(t *testing.T) {
 	packagePath, packageDir := cb.TempPackage("a", map[string]string{})
 
 	calculatedPath, err := GetPackageFromDir(cb.Ctx(), packageDir)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, packagePath, calculatedPath)
 
 	vos := vosctx.FromContext(cb.Ctx())
 	cb.OsVar("GOPATH", "/fdskljsfdash/"+string(filepath.ListSeparator)+vos.Getenv("GOPATH"))
 
 	calculatedPath, err = GetPackageFromDir(cb.Ctx(), packageDir)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, packagePath, calculatedPath)
 
 	cb.OsVar("GOPATH", "/fdskljsfdash/")
@@ -53,7 +54,7 @@ func TestGetDirFromEmptyPackage(t *testing.T) {
 	assert.IsError(t, err, "SUTCWEVRXS")
 
 	calculatedDir, err := GetDirFromEmptyPackage(cb.Ctx(), packagePath)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, packageDir, calculatedDir)
 
 	vos := vosctx.FromContext(cb.Ctx())
@@ -61,7 +62,7 @@ func TestGetDirFromEmptyPackage(t *testing.T) {
 
 	// This will now need two loops around to get the package
 	calculatedDir, err = GetDirFromEmptyPackage(cb.Ctx(), packagePath)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, packageDir, calculatedDir)
 
 }
@@ -70,13 +71,13 @@ func TestGetDirFromPackage(t *testing.T) {
 	defer cb.Cleanup()
 	packagePath, packageDir := cb.TempPackage("a", map[string]string{})
 	calculatedDir, err := GetDirFromPackage(cb.Ctx(), packagePath)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, packageDir, calculatedDir)
 
 	cb.TempFile("a.go", "package a")
 
 	calculatedDir, err = GetDirFromPackage(cb.Ctx(), packagePath)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, packageDir, calculatedDir)
 
 }
