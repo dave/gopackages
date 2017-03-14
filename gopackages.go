@@ -10,7 +10,7 @@ import (
 
 	"os"
 
-	"github.com/davelondon/kerr"
+	"github.com/dave/kerr"
 )
 
 func GetDirFromPackage(environ []string, gopath string, packagePath string) (string, error) {
