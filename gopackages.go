@@ -38,7 +38,7 @@ func GetDirFromEmptyPackage(gopathEnv string, path string) (string, error) {
 			return dir, nil
 		}
 	}
-	return "", NotFoundError{Struct: kerr.New("SUTCWEVRXS", "%s not found", path)}
+	return "", NotFoundError{Struct: kerr.New("SUTCWEVRXS", "%s not found", path).(kerr.Struct)}
 }
 
 type NotFoundError struct {
@@ -53,13 +53,13 @@ func GetPackageFromDir(gopath string, dir string) (string, error) {
 			gosrc := fmt.Sprintf("%s/src", gopath)
 			relpath, err := filepath.Rel(gosrc, dir)
 			if err != nil {
-				// ke: {"block": {"notest": true}}
+				// notest
 				// I don't *think* we can trigger this error if dir starts with gopath
 				savedError = err
 				continue
 			}
 			if relpath == "" {
-				// ke: {"block": {"notest": true}}
+				// notest
 				// I don't *think* we can trigger this either
 				continue
 			}
@@ -68,7 +68,7 @@ func GetPackageFromDir(gopath string, dir string) (string, error) {
 		}
 	}
 	if savedError != nil {
-		// ke: {"block": {"notest": true}}
+		// notest
 		return "", savedError
 	}
 	return "", kerr.New("CXOETFPTGM", "Package not found for %s", dir)
